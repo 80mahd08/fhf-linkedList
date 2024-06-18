@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"stdlib.h": "c",
+		"emscripten.h": "c",
+		"stdio.h": "c"
+	},
+	"cSpell.words": ["createlist"]
+}
