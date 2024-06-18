@@ -18,9 +18,11 @@ export default class LinkedList {
 	static async init() {
 		const modulePath = new URL(
 			"public/wasm/main.wasm",
-			import.meta.url
+			document.baseURI
 		).toString();
+		console.log(modulePath);
 		const resp = await fetch(modulePath);
+		console.log(resp);
 		const res = await WebAssembly.instantiateStreaming(resp, {
 			js: {
 				mem: LinkedList.memory,
