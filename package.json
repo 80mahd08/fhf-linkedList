@@ -1,6 +1,6 @@
 {
 	"name": "fhf-linkedlist",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "The fhf-linkedlist library is a high-performance JavaScript implementation of a linked list, leveraging WebAssembly for efficient memory management and fast execution. It provides an easy-to-use API for common linked list operations such as appending, pushing, deleting, and reversing nodes. Designed for developers needing optimal performance in their web applications, fhf-linkedlist seamlessly integrates with WebAssembly, offering a robust solution for handling dynamic data structures.",
 	"main": "./src/js/index.js",
 	"scripts": {
