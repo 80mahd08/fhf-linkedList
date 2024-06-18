@@ -16,7 +16,7 @@ export default class LinkedList {
 	}
 
 	static async init() {
-		const resp = await fetch("./../wasm/main.wasm");
+		const resp = await fetch("/wasm/main.wasm");
 		const res = await WebAssembly.instantiateStreaming(resp, {
 			js: {
 				mem: LinkedList.memory,
