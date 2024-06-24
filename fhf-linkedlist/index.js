@@ -1,3 +1,4 @@
+import wasmPath from "/wasm/main.wasm?url";
 export default class LinkedList {
 	static head = null;
 	static memory = new WebAssembly.Memory({
@@ -6,23 +7,8 @@ export default class LinkedList {
 	});
 	static exports = null;
 
-	constructor(data) {
-		LinkedList.init(); // Call initialization method automatically
-		if (data) {
-			for (let i = 0; i < data.length; i++) {
-				LinkedList.exports.append(LinkedList.head, data[i]);
-			}
-		}
-	}
-
 	static async init() {
-		const modulePath = new URL(
-			"public/wasm/main.wasm",
-			document.baseURI
-		).toString();
-		console.log(modulePath);
-		const resp = await fetch(modulePath);
-		console.log(resp);
+		const resp = await fetch(wasmPath);
 		const res = await WebAssembly.instantiateStreaming(resp, {
 			js: {
 				mem: LinkedList.memory,
@@ -37,7 +23,8 @@ export default class LinkedList {
 		LinkedList.exports = res.instance.exports;
 		LinkedList.memory = LinkedList.exports.memory;
 	}
-	display() {
+	async display() {
+		await LinkedList.initIfNeeded();
 		LinkedList.exports.display(LinkedList.head);
 	}
 
@@ -50,8 +37,6 @@ export default class LinkedList {
 		await LinkedList.initIfNeeded();
 		LinkedList.head = LinkedList.exports.push(LinkedList.head, data);
 	}
-
-	// Other methods go here...
 
 	async length() {
 		await LinkedList.initIfNeeded();
@@ -82,6 +67,16 @@ export default class LinkedList {
 	async insert(index, data) {
 		await LinkedList.initIfNeeded();
 		LinkedList.exports.insert(LinkedList.head, index, data);
+	}
+
+	async toArray() {
+		await LinkedList.initIfNeeded();
+		const out = [];
+		const len = await this.length();
+		for (let i = 0; i < len; i++) {
+			out.push(await this.get(i));
+		}
+		return out;
 	}
 
 	static async initIfNeeded() {
